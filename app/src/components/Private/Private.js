@@ -8,6 +8,7 @@ import { getUserInfo } from './../../ducks/user_reducer';
 class Private extends Component {
 
     componentDidMount() {
+        // this.props.history.push('/')
         this.props.getUserInfo()
     }
 
