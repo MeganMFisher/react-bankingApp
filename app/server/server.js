@@ -19,6 +19,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use( express.static( `${__dirname}/../build` ) );
 
 //DATABASE CONNECTION
 massive(process.env.CONNECTIONSTRING).then( db => {
@@ -56,8 +57,8 @@ passport.deserializeUser(function(user, done) {
 })
 
 app.get('/auth', passport.authenticate('auth0', {
-    successRedirect: 'http://localhost:3000/#/private',
-    failureRedirect: 'http://localhost:3000/#/'
+    successRedirect: '/#/private',
+    failureRedirect: '/#/'
 }));
 
 // app.get('/auth/callback', passport.authenticate('auth0', {
@@ -75,10 +76,10 @@ app.get('/auth/me', (req, res) => {
 
 app.get('/auth/logout', (req, res) => {
     req.logOut() //Passport gives us this to terminate a login session. 
-    return res.redirect(302, 'http://localhost:3000/#/'); //res.redirect comes from Express to redirect the user to the given url. 302 is the default status code for res.redirect. 
+    return res.redirect(302, '/#/'); //res.redirect comes from Express to redirect the user to the given url. 302 is the default status code for res.redirect. 
 })
 
-let PORT = 3005;
-app.listen(PORT, () => {
-    console.log(`Listening on port: ${PORT}`); 
+
+app.listen(process.env.PORT, () => {
+    console.log(`Listening on port: ${process.env.PORT}`); 
 })
